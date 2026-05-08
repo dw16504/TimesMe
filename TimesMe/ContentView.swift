@@ -14,6 +14,7 @@ struct ContentView: View {
     
     @State private var includeTables: [Int] = [0]
     @State private var questionQuantitiy = 1
+    @State private var goToGame = false
     
     var body: some View {
         NavigationStack{
@@ -92,24 +93,27 @@ struct ContentView: View {
                     
                 }
                 
-                
             }
-            
-            
+    
             Text("\(questionQuantitiy) Questions")
             
             Stepper("How many Questions do you want?", value: $questionQuantitiy)
             
-            
-            
-            NavigationLink("Go to other screen"){
+            Button("Start!"){
+                playSwitchSound()
+                goToGame = true
                 
-                PlayGame(sentTables: includeTables, numberOfQuestions: questionQuantitiy)
+            }.background{Image("button_blue_rectangle")}
+                .padding(30)
+                .foregroundColor(.white)
+                .font(.custom("Kenney Future Narrow", size: 30))
+                .navigationDestination(isPresented: $goToGame){
+                    PlayGame(sentTables: includeTables, numberOfQuestions: questionQuantitiy)            }
                 
-            }
+                
+        }//closes nav controller (I think), make navigation modifiers above this line, for some reason.
+            .padding()
             
-        }
-        .padding()
     }
     
     
@@ -141,16 +145,9 @@ struct ContentView: View {
         }
     }
     
-    
-    
-    
-    
-    
-    
+     
     
 }
-
-
 
 
 
