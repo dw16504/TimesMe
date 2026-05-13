@@ -18,3 +18,7 @@ struct singleQuestion{
 
 }
 
+let wrongOptions = ["Nope!","Not Quite","Try Again", "X"]
+
+let correctOptons  = ["Nice Work!", "Thats right!", "Terrific!", "Like Butter!"]
+

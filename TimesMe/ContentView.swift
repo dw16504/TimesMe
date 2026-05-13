@@ -3,7 +3,7 @@
 //  TimesMe
 //
 //  Created by Douglas Webb on 4/29/26.
-//
+//  Last Man Branch Save Point 9:12 AM 5/13/2026
 
 import SwiftUI
 import AVFoundation
@@ -12,38 +12,40 @@ struct ContentView: View {
     
     @State private var audioPlayer: AVAudioPlayer?
     
-    @State private var includeTables: [Int] = [0]
+    @State private var includeTables: [Int] = []
     @State private var questionQuantitiy = 1
     @State private var goToGame = false
+    //@State private var buttonBounce = 1.0
     
     var body: some View {
         NavigationStack{
             
             VStack{
                 Text("Practice your times tables!")
-                    .font(.custom("Kenney Future Narrow", size: 24))
+                    .font(.custom(applicationFont, size: 24))
                 
                 Text("Which tables do you want to practice?")
-                
-                
+                    .font(.custom(applicationFont, size: 17))
                 HStack{
                     Button{
                         includeTableFunction(selectedNumber: 1)
+                        //buttonBounce += 0.2
                     } label: {Text(String(1))}.foregroundColor(includeTables.contains(1) ? .red : .blue)
                         .background{Image("button_green")}
-                        .font(.custom("Kenney Future Narrow", size: 30))
+                        .font(.custom(applicationFont, size: 30))
                         .padding(25)
+                        //.scaleEffect(buttonBounce)
                     Button{
                         includeTableFunction(selectedNumber: 2)
                     } label: {Text(String(2))}.foregroundColor(includeTables.contains(2) ? .red : .blue)
                         .background{Image("button_green")}
-                        .font(.custom("Kenney Future Narrow", size: 30))
+                        .font(.custom(applicationFont, size: 30))
                         .padding(25)
                     Button{
                         includeTableFunction(selectedNumber: 3)
                     } label: {Text(String(3))}.foregroundColor(includeTables.contains(3) ? .red : .blue)
                         .background{Image("button_green")}
-                        .font(.custom("Kenney Future Narrow", size: 30))
+                        .font(.custom(applicationFont, size: 30))
                         .padding(25)
                     
                 }
@@ -53,19 +55,19 @@ struct ContentView: View {
                         includeTableFunction(selectedNumber: 4)
                     } label: {Text(String(4))}.foregroundColor(includeTables.contains(4) ? .red : .blue)
                         .background{Image("button_green")}
-                        .font(.custom("Kenney Future Narrow", size: 30))
+                        .font(.custom(applicationFont, size: 30))
                         .padding(25)
                     Button{
                         includeTableFunction(selectedNumber: 5)
                     } label: {Text(String(5))}.foregroundColor(includeTables.contains(5) ? .red : .blue)
                         .background{Image("button_green")}
-                        .font(.custom("Kenney Future Narrow", size: 30))
+                        .font(.custom(applicationFont, size: 30))
                         .padding(25)
                     Button{
                         includeTableFunction(selectedNumber: 6)
                     } label: {Text(String(6))}.foregroundColor(includeTables.contains(6) ? .red : .blue)
                         .background{Image("button_green")}
-                        .font(.custom("Kenney Future Narrow", size: 30))
+                        .font(.custom(applicationFont, size: 30))
                         .padding(25)
                     
                     
@@ -76,19 +78,19 @@ struct ContentView: View {
                         includeTableFunction(selectedNumber: 7)
                     } label: {Text(String(7))}.foregroundColor(includeTables.contains(7) ? .red : .blue)
                         .background{Image("button_green")}
-                        .font(.custom("Kenney Future Narrow", size: 30))
+                        .font(.custom(applicationFont, size: 30))
                         .padding(25)
                     Button{
                         includeTableFunction(selectedNumber: 8)
                     } label: {Text(String(8))}.foregroundColor(includeTables.contains(8) ? .red : .blue)
                         .background{Image("button_green")}
-                        .font(.custom("Kenney Future Narrow", size: 30))
+                        .font(.custom(applicationFont, size: 30))
                         .padding(25)
                     Button{
                         includeTableFunction(selectedNumber: 9)
                     } label: {Text(String(9))}.foregroundColor(includeTables.contains(9) ? .red : .blue)
                         .background{Image("button_green")}
-                        .font(.custom("Kenney Future Narrow", size: 30))
+                        .font(.custom(applicationFont, size: 30))
                         .padding(25)
                     
                 }
@@ -106,7 +108,7 @@ struct ContentView: View {
             }.background{Image("button_blue_rectangle")}
                 .padding(30)
                 .foregroundColor(.white)
-                .font(.custom("Kenney Future Narrow", size: 30))
+                .font(.custom(applicationFont, size: 30))
                 .navigationDestination(isPresented: $goToGame){
                     PlayGame(sentTables: includeTables, numberOfQuestions: questionQuantitiy)            }
                 

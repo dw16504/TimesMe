@@ -16,7 +16,9 @@ struct PlayGame: View{
     @State private var questionSet :[singleQuestion] = []
     @State private var questionNumber = 0
     
-    @State private var answerField :String = "place Holder"
+    @State private var answerField :String = ""
+    
+    @State private var messageInWindow :Bool = false
     
     
     var body: some View{
@@ -27,13 +29,13 @@ struct PlayGame: View{
             
             
             Text("What is?")
-                .font(.custom("kenney Future Narrow", size: 30))
+                .font(.custom(applicationFont, size: 30))
                 .padding(.bottom, 15)
             
             if !questionSet.isEmpty{
                 
-                Text("\(questionSet[questionNumber].factors[0])  X \(questionSet[questionNumber].factors[1]) =")
-                    .font(.custom("kenney Future Narrow", size: 30))
+                Text("\(questionSet[questionNumber].factors[0]) X \(questionSet[questionNumber].factors[1]) =")
+                    .font(.custom(applicationFont, size: 30))
                     .padding(.bottom, 15)
             }else{
                 Text("Hang on a Sec!")
@@ -56,7 +58,7 @@ struct PlayGame: View{
             
             
             Text(answerField)
-                .font(.custom("kenney Future Narrow", size: 30))
+                .font(.custom(applicationFont, size: 30))
                 .padding(.bottom, 15)
             
             
@@ -64,59 +66,89 @@ struct PlayGame: View{
             HStack{
                 Button{
                     
+                    if messageInWindow {
+                        answerField = ""
+                        messageInWindow = false
+                    }
+                    
                     answerField = answerField + "1"
                     
                 } label: {Text(String(1))}
                     .background{Image("button_green")}
-                    .font(.custom("Kenney Future Narrow", size: 30))
+                    .font(.custom(applicationFont, size: 30))
                     .padding(25)
                 
                 Button{
+                    
+                    if messageInWindow {
+                        answerField = ""
+                        messageInWindow = false
+                    }
                     
                     answerField = answerField + "2"
                     
                 } label: {Text(String(2))}
                     .background{Image("button_green")}
-                    .font(.custom("Kenney Future Narrow", size: 30))
+                    .font(.custom(applicationFont, size: 30))
                     .padding(25)
                 
                 Button{
+                    
+                    if messageInWindow {
+                        answerField = ""
+                        messageInWindow = false
+                    }
                     
                     answerField = answerField + "3"
                     
                 } label: {Text(String(3))}
                     .background{Image("button_green")}
-                    .font(.custom("Kenney Future Narrow", size: 30))
+                    .font(.custom(applicationFont, size: 30))
                     .padding(25)
                 
             }
             
             HStack{
                 Button{
+                    
+                    if messageInWindow {
+                        answerField = ""
+                        messageInWindow = false
+                    }
                     
                     answerField = answerField + "4"
                     
                 } label: {Text(String(4))}
                     .background{Image("button_green")}
-                    .font(.custom("Kenney Future Narrow", size: 30))
+                    .font(.custom(applicationFont, size: 30))
                     .padding(25)
                 
                 Button{
+                    
+                    if messageInWindow {
+                        answerField = ""
+                        messageInWindow = false
+                    }
                     
                     answerField = answerField + "5"
                     
                 } label: {Text(String(5))}
                     .background{Image("button_green")}
-                    .font(.custom("Kenney Future Narrow", size: 30))
+                    .font(.custom(applicationFont, size: 30))
                     .padding(25)
                 
                 Button{
+                    
+                    if messageInWindow {
+                        answerField = ""
+                        messageInWindow = false
+                    }
                     
                     answerField = answerField + "6"
                     
                 } label: {Text(String(6))}
                     .background{Image("button_green")}
-                    .font(.custom("Kenney Future Narrow", size: 30))
+                    .font(.custom(applicationFont, size: 30))
                     .padding(25)
                 
                 
@@ -125,29 +157,44 @@ struct PlayGame: View{
             HStack{
                 Button{
                     
+                    if messageInWindow {
+                        answerField = ""
+                        messageInWindow = false
+                    }
+                
                     answerField = answerField + "7"
                     
                 } label: {Text(String(7))}
                     .background{Image("button_green")}
-                    .font(.custom("Kenney Future Narrow", size: 30))
+                    .font(.custom(applicationFont, size: 30))
                     .padding(25)
                 
                 Button{
+                    
+                    if messageInWindow {
+                        answerField = ""
+                        messageInWindow = false
+                    }
                     
                     answerField = answerField + "8"
                     
                 } label: {Text(String(8))}
                     .background{Image("button_green")}
-                    .font(.custom("Kenney Future Narrow", size: 30))
+                    .font(.custom(applicationFont, size: 30))
                     .padding(25)
                 
                 Button{
+                    
+                    if messageInWindow {
+                        answerField = ""
+                        messageInWindow = false
+                    }
                     
                     answerField = answerField + "9"
                     
                 } label: {Text(String(9))}
                     .background{Image("button_green")}
-                    .font(.custom("Kenney Future Narrow", size: 30))
+                    .font(.custom(applicationFont, size: 30))
                     .padding(25)
     
             }
@@ -155,11 +202,16 @@ struct PlayGame: View{
             HStack{
                 Button{
                     
+                    if messageInWindow {
+                        answerField = ""
+                        messageInWindow = false
+                    }
+                    
                     answerField = answerField + "0"
                     
                 } label: {Text(String(0))}
                     .background{Image("button_green")}
-                    .font(.custom("Kenney Future Narrow", size: 30))
+                    .font(.custom(applicationFont, size: 30))
                     .padding(25)
                 
                 Button{
@@ -168,29 +220,32 @@ struct PlayGame: View{
                     
                 } label: {Text(String("Cl"))}
                     .background{Image("button_green")}
-                    .font(.custom("Kenney Future Narrow", size: 30))
+                    .font(.custom(applicationFont, size: 30))
                     .padding(25)
                 
             }
             
             Button("Enter"){
                 
-                //TODO:  Here is where you left off, keep score!
-                
-                
+                let intAnswerField = Int(answerField)
             
-                print("The answerField is: \(answerField)")
-                print("The data type is:")
-                print(type(of: answerField))
-                var intAnswerField = Int(answerField)
-                print("The answerField is: \(intAnswerField)")
-                print("The data type is:")
-                print(type(of: intAnswerField))
-                
                 if intAnswerField == questionSet[questionNumber].answer{
-                    answerField = "Correct"
+                    messageInWindow = true
+                    let correcMessage = correctOptons.randomElement()
+                    
+                    answerField = correcMessage ?? "Right!"
                 }else{
-                    answerField = "Wrong"
+                    messageInWindow = true
+                    
+                    var wrongMessage = wrongOptions.randomElement()
+                    
+                    if wrongMessage == "X"{
+                        
+                        wrongMessage = "The right answer is \(questionSet[questionNumber].answer)"
+                        
+                    }
+        
+                    answerField = wrongMessage ?? "Wrong"
                 }
                 
                 
@@ -198,6 +253,10 @@ struct PlayGame: View{
                 if questionNumber < (questionSet.count - 1){
                     questionNumber += 1
                 }else{
+                    
+                    // game over logic would go here.
+                    
+                    
                     questionNumber = 0
                     print("Game Over")
                 }
@@ -207,7 +266,7 @@ struct PlayGame: View{
             }.background{Image("button_blue_rectangle")}
                 .padding(30)
                 .foregroundColor(.white)
-                .font(.custom("Kenney Future Narrow", size: 30))
+                .font(.custom(applicationFont, size: 30))
         
         }.onAppear{
             
