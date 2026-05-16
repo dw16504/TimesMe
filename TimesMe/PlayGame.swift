@@ -11,7 +11,7 @@ struct PlayGame: View{
     
     
     let sentTables :[Int]
-    let numberOfQuestions :Int
+    
     
     @State private var questionSet :[singleQuestion] = []
     @State private var questionNumber = 0
@@ -227,7 +227,7 @@ struct PlayGame: View{
                 
             
             
-            Button("Go!"){
+            Button("Enter"){
                 
                 let intAnswerField = Int(answerField)
             
@@ -236,6 +236,11 @@ struct PlayGame: View{
                     let correcMessage = correctOptons.randomElement()
                     
                     answerField = correcMessage ?? "Right!"
+                    
+                    //TODO: right logic
+                    questionSet[questionNumber].correct += 1
+                    questionSet[questionNumber].adaptiveDifficulty = (questionSet[questionNumber].adaptiveDifficulty * 0.9) - 0.1
+                    
                 }else{
                     messageInWindow = true
                     
@@ -248,22 +253,27 @@ struct PlayGame: View{
                     }
         
                     answerField = wrongMessage ?? "Wrong"
+                    
+                    //TODO: wrong logic
+                    questionSet[questionNumber].incorrect += 1
+                    questionSet[questionNumber].adaptiveDifficulty = (questionSet[questionNumber].adaptiveDifficulty * 0.9) + 0.1
                 }
                 
+                print("The next question event has been triggered!")
+                print("THe question set is : \(questionSet)")
                 
-             
-                if questionNumber < (questionSet.count - 1){
-                    questionNumber += 1
-                }else{
+                
+                //TODO: So here is the algorythm ask the question, record the answer and up
+                //date the array, add another question and then set the next one based on the highest wrong weighted ratio.
+                //youre gonne need to check for duplicate ids
+                
+                
+                
+                if questionSet.count<=1{
                     
-                    // game over logic would go here.
-                    
-                    
-                    questionNumber = 0
-                    print("Game Over")
                 }
                 
-                
+               
                 
             }.background{Image("button_blue_rectangle")}
                 .padding(30)
@@ -272,7 +282,12 @@ struct PlayGame: View{
         
         }.onAppear{
             
-            questionSet = makeQuestions(quantity: numberOfQuestions, factor: sentTables)
+            //questionSet = makeQuestions(factor: sentTables)
+            
+            // This needs to append a new questionto the question set on start up.
+            
+            questionSet.append(makeQuestions(factor: sentTables))
+            
             
         }
     }
@@ -280,25 +295,19 @@ struct PlayGame: View{
     
 }
 
-func makeQuestions(quantity: Int, factor: [Int]) -> [singleQuestion]{
-    
-    var temporaryQuestionSet : [singleQuestion] = []
-    
-    for _ in (1...quantity){
+func makeQuestions(factor: [Int]) -> singleQuestion{
+   
+        //This makes one question
         
         let firstRandomFactor = Int.random(in: 0...10)
         let secondFactor = factor.randomElement() ?? 0
-        var tempararyFactorArray = [firstRandomFactor, secondFactor]
-        tempararyFactorArray.shuffle()
+        var temporaryFactorArray = [firstRandomFactor, secondFactor]
+        temporaryFactorArray.shuffle()
         
-        temporaryQuestionSet.append(singleQuestion(factors: tempararyFactorArray))
-    
-    }
-   
-    return temporaryQuestionSet
-    
+        return (singleQuestion(questionID: temporaryFactorArray, factors: temporaryFactorArray))
+
 }
 
 #Preview{
-    PlayGame(sentTables: [0,2,3,4], numberOfQuestions: 4)
+    PlayGame(sentTables: [0,2,3,4])
 }

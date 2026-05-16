@@ -11,9 +11,7 @@ import AVFoundation
 struct ContentView: View {
     
     @State private var audioPlayer: AVAudioPlayer?
-    
     @State private var includeTables: [Int] = []
-    @State private var questionQuantitiy = 1
     @State private var goToGame = false
     
     
@@ -120,10 +118,7 @@ struct ContentView: View {
                 
             }
     
-            Text("\(questionQuantitiy) Questions")
-            
-            Stepper("How many Questions do you want?", value: $questionQuantitiy)
-            
+          
             Button("Start!"){
                 playSwitchSound()
                 goToGame = true
@@ -133,7 +128,8 @@ struct ContentView: View {
                 .foregroundColor(.white)
                 .font(.custom(applicationFont, size: 30))
                 .navigationDestination(isPresented: $goToGame){
-                    PlayGame(sentTables: includeTables, numberOfQuestions: questionQuantitiy)            }
+                    PlayGame(sentTables: includeTables)
+                }
                 
                 
         }//closes nav controller (I think), make navigation modifiers above this line, for some reason.
