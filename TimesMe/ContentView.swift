@@ -15,7 +15,7 @@ struct ContentView: View {
     @State private var includeTables: [Int] = []
     @State private var questionQuantitiy = 1
     @State private var goToGame = false
-    //@State private var buttonBounce = 1.0
+    
     
     var body: some View {
         NavigationStack{
@@ -29,18 +29,19 @@ struct ContentView: View {
                 HStack{
                     Button{
                         includeTableFunction(selectedNumber: 1)
-                        //buttonBounce += 0.2
+                    
                     } label: {Text(String(1))}.foregroundColor(includeTables.contains(1) ? .red : .blue)
                         .background{Image("button_green")}
                         .font(.custom(applicationFont, size: 30))
                         .padding(25)
-                        //.scaleEffect(buttonBounce)
+               
                     Button{
                         includeTableFunction(selectedNumber: 2)
                     } label: {Text(String(2))}.foregroundColor(includeTables.contains(2) ? .red : .blue)
                         .background{Image("button_green")}
                         .font(.custom(applicationFont, size: 30))
                         .padding(25)
+                     
                     Button{
                         includeTableFunction(selectedNumber: 3)
                     } label: {Text(String(3))}.foregroundColor(includeTables.contains(3) ? .red : .blue)
@@ -92,6 +93,28 @@ struct ContentView: View {
                         .background{Image("button_green")}
                         .font(.custom(applicationFont, size: 30))
                         .padding(25)
+                    
+                }
+                
+                HStack{
+                    Button{
+                        includeTableFunction(selectedNumber: 10)
+                    } label: {Text(String(10))}.foregroundColor(includeTables.contains(10) ? .red : .blue)
+                        .background{Image("button_green")}
+                        .font(.custom(applicationFont, size: 30))
+                        .padding(20)
+                    Button{
+                        includeTableFunction(selectedNumber: 11)
+                    } label: {Text(String(11))}.foregroundColor(includeTables.contains(11) ? .red : .blue)
+                        .background{Image("button_green")}
+                        .font(.custom(applicationFont, size: 30))
+                        .padding(20)
+                    Button{
+                        includeTableFunction(selectedNumber: 12)
+                    } label: {Text(String(12))}.foregroundColor(includeTables.contains(12) ? .red : .blue)
+                        .background{Image("button_green")}
+                        .font(.custom(applicationFont, size: 30))
+                        .padding(20)
                     
                 }
                 

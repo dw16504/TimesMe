@@ -214,18 +214,20 @@ struct PlayGame: View{
                     .font(.custom(applicationFont, size: 30))
                     .padding(25)
                 
+                
+            }
                 Button{
                     
                     answerField = ""
                     
-                } label: {Text(String("Cl"))}
-                    .background{Image("button_green")}
+                } label: {Text(String("Clear"))}
+                    .background{Image("button_rectangle_gloss")}
                     .font(.custom(applicationFont, size: 30))
                     .padding(25)
                 
-            }
             
-            Button("Enter"){
+            
+            Button("Go!"){
                 
                 let intAnswerField = Int(answerField)
             
