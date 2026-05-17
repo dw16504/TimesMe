@@ -13,9 +13,9 @@ struct PlayGame: View{
     let sentTables :[Int]
     
     
-    @State private var questionSet :[singleQuestion] = []
+    //@State private var questionSet :[singleQuestion] = []
     @State private var questionNumber = 0
-    
+    @State private var questionsAreSet = false
     @State private var answerField :String = ""
     
     @State private var messageInWindow :Bool = false
@@ -23,38 +23,21 @@ struct PlayGame: View{
     
     var body: some View{
         
-        
-        
         VStack{
-            
             
             Text("What is?")
                 .font(.custom(applicationFont, size: 30))
                 .padding(.bottom, 15)
             
-            if !questionSet.isEmpty{
+            if questionsAreSet && !masterQuestionSet.isEmpty{
                 
-                Text("\(questionSet[questionNumber].factors[0]) X \(questionSet[questionNumber].factors[1]) =")
+                Text("\(masterQuestionSet[questionNumber].factors[0]) X \(masterQuestionSet[questionNumber].factors[1]) =")
                     .font(.custom(applicationFont, size: 30))
                     .padding(.bottom, 15)
             }else{
-                Text("Hang on a Sec!")
+                Text("Hang on, writing questions.")
             }
-        
             
-//            Text("The values sent are:")
-//            
-//            Text("PlayGame, the input value is \(sentTables)")
-//            Text("The number of questions is: \(numberOfQuestions)")
-//            
-//            
-//            if !questionSet.isEmpty {
-//                Text("The first factor is \(questionSet[questionNumber].factors[0])")
-//                Text("The second factor is \(questionSet[questionNumber].factors[1])")
-//                Text("The anser is \(questionSet[questionNumber].answer)")
-//                Text("The question number is \(questionNumber)")
-//                
-//              }
             
             
             Text(answerField)
@@ -161,7 +144,7 @@ struct PlayGame: View{
                         answerField = ""
                         messageInWindow = false
                     }
-                
+                    
                     answerField = answerField + "7"
                     
                 } label: {Text(String(7))}
@@ -196,7 +179,7 @@ struct PlayGame: View{
                     .background{Image("button_green")}
                     .font(.custom(applicationFont, size: 30))
                     .padding(25)
-    
+                
             }
             
             HStack{
@@ -216,30 +199,31 @@ struct PlayGame: View{
                 
                 
             }
-                Button{
-                    
-                    answerField = ""
-                    
-                } label: {Text(String("Clear"))}
-                    .background{Image("button_rectangle_gloss")}
-                    .font(.custom(applicationFont, size: 30))
-                    .padding(25)
+            Button{
                 
+                answerField = ""
+                
+            } label: {Text(String("Clear"))}
+                .background{Image("button_rectangle_gloss")}
+                .font(.custom(applicationFont, size: 30))
+                .padding(25)
+            
             
             
             Button("Enter"){
                 
                 let intAnswerField = Int(answerField)
-            
-                if intAnswerField == questionSet[questionNumber].answer{
+                
+                if intAnswerField == masterQuestionSet[questionNumber].answer{
                     messageInWindow = true
                     let correcMessage = correctOptons.randomElement()
                     
                     answerField = correcMessage ?? "Right!"
                     
-                    //TODO: right logic
-                    questionSet[questionNumber].correct += 1
-                    questionSet[questionNumber].adaptiveDifficulty = (questionSet[questionNumber].adaptiveDifficulty * 0.9) - 0.1
+                    //
+                    //right logic
+                    masterQuestionSet[questionNumber].correct += 1
+                    masterQuestionSet[questionNumber].adaptiveDifficulty = (masterQuestionSet[questionNumber].adaptiveDifficulty * 0.9) - 0.1
                     
                 }else{
                     messageInWindow = true
@@ -248,64 +232,63 @@ struct PlayGame: View{
                     
                     if wrongMessage == "X"{
                         
-                        wrongMessage = "The right answer is \(questionSet[questionNumber].answer)"
+                        wrongMessage = "The right answer is \(masterQuestionSet[questionNumber].answer)"
                         
                     }
-        
+                    
                     answerField = wrongMessage ?? "Wrong"
                     
-                    //TODO: wrong logic
-                    questionSet[questionNumber].incorrect += 1
-                    questionSet[questionNumber].adaptiveDifficulty = (questionSet[questionNumber].adaptiveDifficulty * 0.9) + 0.1
+                    //wrong logic
+                    masterQuestionSet[questionNumber].incorrect += 1
+                    masterQuestionSet[questionNumber].adaptiveDifficulty = (masterQuestionSet[questionNumber].adaptiveDifficulty * 0.9) + 0.1
                 }
                 
                 print("The next question event has been triggered!")
-                print("THe question set is : \(questionSet)")
+                print("THe question set is : \(masterQuestionSet)")
+                print("THere are \(masterQuestionSet.count) in the set")
+                
+                //TODO: this is where we are at, after the question is answered, we need a way of selectiong the next question. there should be some algorithm to set frequency.
                 
                 
-                //TODO: So here is the algorythm ask the question, record the answer and up
-                //date the array, add another question and then set the next one based on the highest wrong weighted ratio.
-                //youre gonne need to check for duplicate ids
+                // here is the idea, ask 2 random, then the highest addaptiveDifficulty, then least frequency. 
                 
                 
                 
-                if questionSet.count<=1{
-                    
-                }
                 
-               
-                
-            }.background{Image("button_blue_rectangle")}
+             }.background{Image("button_blue_rectangle")}
                 .padding(30)
                 .foregroundColor(.white)
                 .font(.custom(applicationFont, size: 30))
         
-        }.onAppear{
-            
-            //questionSet = makeQuestions(factor: sentTables)
-            
-            // This needs to append a new questionto the question set on start up.
-            
-            questionSet.append(makeQuestions(factor: sentTables))
-            
-            
         }
+            .onAppear{
+                makeQuestions(factor: sentTables)
+                questionsAreSet = true
+            }
+            .onDisappear{
+                masterQuestionSet = []
+            }
     }
-
     
 }
+    
 
-func makeQuestions(factor: [Int]) -> singleQuestion{
+
+func makeQuestions(factor: [Int]){
    
-        //This makes one question
-        
-        let firstRandomFactor = Int.random(in: 0...10)
-        let secondFactor = factor.randomElement() ?? 0
-        var temporaryFactorArray = [firstRandomFactor, secondFactor]
-        temporaryFactorArray.shuffle()
-        
-        return (singleQuestion(questionID: temporaryFactorArray, factors: temporaryFactorArray))
 
+    for singleFactor in factor{
+        
+        for otherNumber in stride(from: 1, through: 12, by: 1){
+            
+            let temporaryFactorArray = [singleFactor,otherNumber]
+            
+            masterQuestionSet.append(singleQuestion(questionID: temporaryFactorArray, factors: temporaryFactorArray))
+            
+        }
+        
+    }
+    
 }
 
 #Preview{
