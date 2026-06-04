@@ -12,13 +12,11 @@ struct PlayGame: View{
     
     let sentTables :[Int]
     
-    
-    //@State private var questionSet :[singleQuestion] = []
     @State private var questionNumber = 0
     @State private var questionsAreSet = false
     @State private var answerField :String = ""
-    
     @State private var messageInWindow :Bool = false
+    @State private var questionCount = 1
     
     
     var body: some View{
@@ -38,13 +36,9 @@ struct PlayGame: View{
                 Text("Hang on, writing questions.")
             }
             
-            
-            
             Text(answerField)
                 .font(.custom(applicationFont, size: 30))
                 .padding(.bottom, 15)
-            
-            
             
             HStack{
                 Button{
@@ -219,8 +213,7 @@ struct PlayGame: View{
                     let correcMessage = correctOptons.randomElement()
                     
                     answerField = correcMessage ?? "Right!"
-                    
-                    //
+                
                     //right logic
                     masterQuestionSet[questionNumber].correct += 1
                     masterQuestionSet[questionNumber].adaptiveDifficulty = (masterQuestionSet[questionNumber].adaptiveDifficulty * 0.9) - 0.1
@@ -243,16 +236,37 @@ struct PlayGame: View{
                     masterQuestionSet[questionNumber].adaptiveDifficulty = (masterQuestionSet[questionNumber].adaptiveDifficulty * 0.9) + 0.1
                 }
                 
-                print("The next question event has been triggered!")
-                print("THe question set is : \(masterQuestionSet)")
-                print("THere are \(masterQuestionSet.count) in the set")
+                masterQuestionSet[questionNumber].attempts += 1
+                questionCount += 1
                 
-                //TODO: this is where we are at, after the question is answered, we need a way of selectiong the next question. there should be some algorithm to set frequency.
+                if questionCount < 3 { // checks to see if its the first 2 questions
                 
-                
-                // here is the idea, ask 2 random, then the highest addaptiveDifficulty, then least frequency. 
-                
-                
+                    //first two questions
+                    questionNumber = Int.random(in: 0...(masterQuestionSet.count))
+                    
+                }else{
+                    
+                    if questionCount % 3 == 0{
+                        
+                        questionNumber = masterQuestionSet.indices.max(by: {
+                            
+                            masterQuestionSet[$0].adaptiveDifficulty < masterQuestionSet[$1].adaptiveDifficulty
+                    
+                        })!
+                        
+                        // should choose the least correct score
+                    }else{
+                        
+                        //TODO: this is where you left off, i dopnt thinkl attempts is incrementing there fore the first question keeps coming up.
+                        
+                        questionNumber = masterQuestionSet.indices.min(by: {
+                            
+                            masterQuestionSet[$0].attempts < masterQuestionSet[$1].attempts
+                    
+                        })!
+                        
+                    }
+                }
                 
                 
              }.background{Image("button_blue_rectangle")}

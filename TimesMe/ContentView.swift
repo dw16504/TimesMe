@@ -56,6 +56,7 @@ struct ContentView: View {
                         .background{Image("button_green")}
                         .font(.custom(applicationFont, size: 30))
                         .padding(25)
+        
                     Button{
                         includeTableFunction(selectedNumber: 5)
                     } label: {Text(String(5))}.foregroundColor(includeTables.contains(5) ? .red : .blue)
@@ -100,20 +101,22 @@ struct ContentView: View {
                     } label: {Text(String(10))}.foregroundColor(includeTables.contains(10) ? .red : .blue)
                         .background{Image("button_green")}
                         .font(.custom(applicationFont, size: 30))
-                        .padding(20)
+                        .padding(.vertical, 25)
+                        .padding(.horizontal, 20)
                     Button{
                         includeTableFunction(selectedNumber: 11)
                     } label: {Text(String(11))}.foregroundColor(includeTables.contains(11) ? .red : .blue)
                         .background{Image("button_green")}
                         .font(.custom(applicationFont, size: 30))
-                        .padding(20)
+                        .padding(.vertical, 25)
+                        .padding(.horizontal, 20)
                     Button{
                         includeTableFunction(selectedNumber: 12)
                     } label: {Text(String(12))}.foregroundColor(includeTables.contains(12) ? .red : .blue)
                         .background{Image("button_green")}
                         .font(.custom(applicationFont, size: 30))
-                        .padding(20)
-                    
+                        .padding(.vertical, 25)
+                        .padding(.horizontal, 20)
                 }
                 
             }
