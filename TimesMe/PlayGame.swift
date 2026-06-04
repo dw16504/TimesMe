@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import AVFoundation
 
 struct PlayGame: View{
     
@@ -17,6 +18,7 @@ struct PlayGame: View{
     @State private var answerField :String = ""
     @State private var messageInWindow :Bool = false
     @State private var questionCount = 1
+    @State private var audioPlayer :AVAudioPlayer?
     
     
     var body: some View{
@@ -42,6 +44,7 @@ struct PlayGame: View{
             
             HStack{
                 Button{
+                    playSwitchSound()
                     
                     if messageInWindow {
                         answerField = ""
@@ -56,6 +59,7 @@ struct PlayGame: View{
                     .padding(25)
                 
                 Button{
+                    playSwitchSound()
                     
                     if messageInWindow {
                         answerField = ""
@@ -70,6 +74,7 @@ struct PlayGame: View{
                     .padding(25)
                 
                 Button{
+                    playSwitchSound()
                     
                     if messageInWindow {
                         answerField = ""
@@ -87,6 +92,7 @@ struct PlayGame: View{
             
             HStack{
                 Button{
+                    playSwitchSound()
                     
                     if messageInWindow {
                         answerField = ""
@@ -101,6 +107,7 @@ struct PlayGame: View{
                     .padding(25)
                 
                 Button{
+                    playSwitchSound()
                     
                     if messageInWindow {
                         answerField = ""
@@ -115,6 +122,7 @@ struct PlayGame: View{
                     .padding(25)
                 
                 Button{
+                    playSwitchSound()
                     
                     if messageInWindow {
                         answerField = ""
@@ -133,6 +141,7 @@ struct PlayGame: View{
             
             HStack{
                 Button{
+                    playSwitchSound()
                     
                     if messageInWindow {
                         answerField = ""
@@ -147,6 +156,7 @@ struct PlayGame: View{
                     .padding(25)
                 
                 Button{
+                    playSwitchSound()
                     
                     if messageInWindow {
                         answerField = ""
@@ -161,6 +171,7 @@ struct PlayGame: View{
                     .padding(25)
                 
                 Button{
+                    playSwitchSound()
                     
                     if messageInWindow {
                         answerField = ""
@@ -178,6 +189,7 @@ struct PlayGame: View{
             
             HStack{
                 Button{
+                    playSwitchSound()
                     
                     if messageInWindow {
                         answerField = ""
@@ -194,6 +206,7 @@ struct PlayGame: View{
                 
             }
             Button{
+                playSwitchSound()
                 
                 answerField = ""
                 
@@ -205,10 +218,12 @@ struct PlayGame: View{
             
             
             Button("Enter"){
+                playSwitchSound()
                 
                 let intAnswerField = Int(answerField)
                 
                 if intAnswerField == masterQuestionSet[questionNumber].answer{
+                    playWinSound()
                     messageInWindow = true
                     let correcMessage = correctOptons.randomElement()
                     
@@ -220,6 +235,7 @@ struct PlayGame: View{
                     
                 }else{
                     messageInWindow = true
+                    playLoseSound()
                     
                     var wrongMessage = wrongOptions.randomElement()
                     
@@ -284,6 +300,45 @@ struct PlayGame: View{
             }
     }
     
+    //THis funtion plays he click sound via AVPlayer
+    func playSwitchSound() {
+        if let url = Bundle.main.url(forResource: "clickSound", withExtension: "mp3") {
+            do {
+                audioPlayer = try AVAudioPlayer(contentsOf: url)
+                audioPlayer?.play()
+            } catch {
+                print("Error playing sound")
+                print("AVAudioPlayer error: \(error)")
+            }
+        }
+    }
+    
+    //THis funtion plays he win sound via AVPlayer
+    func playWinSound() {
+        if let url = Bundle.main.url(forResource: "win2", withExtension: "mp3") {
+            do {
+                audioPlayer = try AVAudioPlayer(contentsOf: url)
+                audioPlayer?.play()
+            } catch {
+                print("Error playing sound")
+                print("AVAudioPlayer error: \(error)")
+            }
+        }
+    }
+    
+    //THis funtion plays he win sound via AVPlayer
+    func playLoseSound() {
+        if let url = Bundle.main.url(forResource: "lose", withExtension: "mp3") {
+            do {
+                audioPlayer = try AVAudioPlayer(contentsOf: url)
+                audioPlayer?.play()
+            } catch {
+                print("Error playing sound")
+                print("AVAudioPlayer error: \(error)")
+            }
+        }
+    }
+    
 }
     
 
@@ -302,6 +357,9 @@ func makeQuestions(factor: [Int]){
         }
         
     }
+    
+    
+    
     
 }
 
