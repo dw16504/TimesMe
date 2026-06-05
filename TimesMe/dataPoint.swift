@@ -32,7 +32,7 @@ struct singleQuestion{
 
 let wrongOptions = ["Nope!","Not Quite","Try Again", "X"]
 
-let correctOptons  = ["Nice Work!", "Thats right!", "Terrific!", "Like Butter!", "Supper!"]
+let correctOptions  = ["Nice Work!", "Thats right!", "Terrific!", "Like Butter!", "Supper!"]
 
 let streakOptions = ["You're on a roll!","Keep the Streak Going!","Don't stop now!"]
 

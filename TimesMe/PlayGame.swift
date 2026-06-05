@@ -21,6 +21,8 @@ struct PlayGame: View{
     @State private var audioPlayer :AVAudioPlayer?
     @State private var winStreak: Int = 0
     
+    @State private var isPopping = false
+    
     
     var body: some View{
         
@@ -42,6 +44,8 @@ struct PlayGame: View{
             Text(answerField)
                 .font(.custom(applicationFont, size: 30))
                 .padding(.bottom, 15)
+                .scaleEffect(isPopping ? 1.2 : 1.0)
+            
             
             HStack{
                 Button{
@@ -230,17 +234,29 @@ struct PlayGame: View{
                     if winStreak < 5{
                         playWinSound()
                         messageInWindow = true
-                        let correcMessage = correctOptons.randomElement()
+                        let correcMessage = correctOptions.randomElement()
                         
                         answerField = correcMessage ?? "Right!"
+                        
+                        
+                        withAnimation(.spring(response: 0.3, dampingFraction: 0.7).repeatCount(3, autoreverses: true)) {
+                            isPopping = true
+                        }
+                        isPopping = false
+                        
                     }else{
                         StreakLevel1Sound()
                         messageInWindow = true
                         answerField = streakOptions.randomElement() ?? "Keep it going"
+                        
+                        withAnimation(.spring(response: 0.1, dampingFraction: 0.3).repeatCount(3, autoreverses: true)) {
+                            isPopping = true
+                        }
+                        isPopping = false
+                        
+                        
                     }
                     
-                    //TODO: sreak need to be reset when you get one wrong!
-                    //use modulo to get units that are divisible by 5
                 
                     //right adaptiveDificulty advanced
                     masterQuestionSet[questionNumber].correct += 1
@@ -260,6 +276,8 @@ struct PlayGame: View{
                     }
                     
                     answerField = wrongMessage ?? "Wrong"
+                    
+                    
                     
                     //wrong logic
                     masterQuestionSet[questionNumber].incorrect += 1
@@ -286,8 +304,7 @@ struct PlayGame: View{
                         
                         // should choose the least correct score
                     }else{
-                        
-                        //TODO: this is where you left off, i dopnt thinkl attempts is incrementing there fore the first question keeps coming up.
+                     
                         
                         questionNumber = masterQuestionSet.indices.min(by: {
                             

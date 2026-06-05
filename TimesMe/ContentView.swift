@@ -137,6 +137,9 @@ struct ContentView: View {
                 
         }//closes nav controller (I think), make navigation modifiers above this line, for some reason.
             .padding()
+        
+        Text("Unanoonuc 2026 - Beta 1 ")
+            .fontWeight(.ultraLight)
             
     }
     
