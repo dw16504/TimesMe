@@ -132,13 +132,14 @@ struct ContentView: View {
                 .font(.custom(applicationFont, size: 30))
                 .navigationDestination(isPresented: $goToGame){
                     PlayGame(sentTables: includeTables)
+                .disabled(includeTables.isEmpty)  // TODO: This isnt working and will need to be addressed.
                 }
                 
                 
-        }//closes nav controller (I think), make navigation modifiers above this line, for some reason.
+        }   
             .padding()
         
-        Text("Unanoonuc 2026 - Beta 1 ")
+        Text("Uncanoonuc 2026 - Beta 1.1 ")
             .fontWeight(.ultraLight)
             
     }

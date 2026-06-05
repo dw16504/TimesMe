@@ -238,11 +238,11 @@ struct PlayGame: View{
                         
                         answerField = correcMessage ?? "Right!"
                         
-                        
+                        isPopping = false
                         withAnimation(.spring(response: 0.3, dampingFraction: 0.7).repeatCount(3, autoreverses: true)) {
                             isPopping = true
                         }
-                        isPopping = false
+                        
                         
                     }else{
                         StreakLevel1Sound()
@@ -290,7 +290,7 @@ struct PlayGame: View{
                 if questionCount < 3 { // checks to see if its the first 2 questions
                 
                     //first two questions
-                    questionNumber = Int.random(in: 0...(masterQuestionSet.count))
+                    questionNumber = Int.random(in: 0..<masterQuestionSet.count)
                     
                 }else{
                     
