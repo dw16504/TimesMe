@@ -19,6 +19,7 @@ struct PlayGame: View{
     @State private var messageInWindow :Bool = false
     @State private var questionCount = 1
     @State private var audioPlayer :AVAudioPlayer?
+    @State private var winStreak: Int = 0
     
     
     var body: some View{
@@ -223,17 +224,30 @@ struct PlayGame: View{
                 let intAnswerField = Int(answerField)
                 
                 if intAnswerField == masterQuestionSet[questionNumber].answer{
-                    playWinSound()
-                    messageInWindow = true
-                    let correcMessage = correctOptons.randomElement()
                     
-                    answerField = correcMessage ?? "Right!"
+                    winStreak += 1
+                    
+                    if winStreak < 5{
+                        playWinSound()
+                        messageInWindow = true
+                        let correcMessage = correctOptons.randomElement()
+                        
+                        answerField = correcMessage ?? "Right!"
+                    }else{
+                        StreakLevel1Sound()
+                        messageInWindow = true
+                        answerField = streakOptions.randomElement() ?? "Keep it going"
+                    }
+                    
+                    //TODO: sreak need to be reset when you get one wrong!
+                    //use modulo to get units that are divisible by 5
                 
-                    //right logic
+                    //right adaptiveDificulty advanced
                     masterQuestionSet[questionNumber].correct += 1
                     masterQuestionSet[questionNumber].adaptiveDifficulty = (masterQuestionSet[questionNumber].adaptiveDifficulty * 0.9) - 0.1
                     
                 }else{
+                    winStreak = 0
                     messageInWindow = true
                     playLoseSound()
                     
@@ -326,9 +340,22 @@ struct PlayGame: View{
         }
     }
     
-    //THis funtion plays he win sound via AVPlayer
+    //THis funtion plays he lose sound via AVPlayer
     func playLoseSound() {
         if let url = Bundle.main.url(forResource: "lose", withExtension: "mp3") {
+            do {
+                audioPlayer = try AVAudioPlayer(contentsOf: url)
+                audioPlayer?.play()
+            } catch {
+                print("Error playing sound")
+                print("AVAudioPlayer error: \(error)")
+            }
+        }
+    }
+    
+    //THis funtion plays he lose sound via AVPlayer
+    func StreakLevel1Sound() {
+        if let url = Bundle.main.url(forResource: "win", withExtension: "mp3") {
             do {
                 audioPlayer = try AVAudioPlayer(contentsOf: url)
                 audioPlayer?.play()
