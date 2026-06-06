@@ -130,9 +130,10 @@ struct ContentView: View {
                 .padding(30)
                 .foregroundColor(.white)
                 .font(.custom(applicationFont, size: 30))
+                .disabled(includeTables.isEmpty)  
                 .navigationDestination(isPresented: $goToGame){
                     PlayGame(sentTables: includeTables)
-                .disabled(includeTables.isEmpty)  // TODO: This isnt working and will need to be addressed.
+                
                 }
                 
                 
